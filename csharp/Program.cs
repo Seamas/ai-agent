@@ -178,25 +178,26 @@ class Program
                 // 添加助手响应到历史
                 _chatHistory.AddAssistantMessage(response.Content);
 
-                // 检查是否有函数调用
-                var functionCalls = response.Items.OfType<FunctionCallContent>().ToList();
-                
-                if (functionCalls.Any())
-                {
-                    Console.WriteLine($"\n🤖 Agent 正在调用工具...");
-                    
-                    // 处理函数调用的结果会通过 AutoInvokeKernelFunctions 自动处理
-                    // 这里只需要继续循环，让 AI 基于函数调用的结果做出下一步决策
-                    
-                    // 打印函数调用信息
-                    foreach (var functionCall in functionCalls)
-                    {
-                        Console.WriteLine($"  调用: {functionCall.FunctionName}, 参数: {functionCall.Arguments}");
-                    }
-                    
-                    // 继续下一次迭代，让 AI 处理函数调用的结果
-                    continue;
-                }
+                // 使用 AutoInvokeKernelFunctions, 方法会自动执行, 系统不会返回  response.Items.OfType<FunctionCallContent>(), 以下内容将无效
+                // // 检查是否有函数调用
+                // var functionCalls = response.Items.OfType<FunctionCallContent>().ToList();
+                //
+                // if (functionCalls.Any())
+                // {
+                //     Console.WriteLine($"\n🤖 Agent 正在调用工具...");
+                //     
+                //     // 处理函数调用的结果会通过 AutoInvokeKernelFunctions 自动处理
+                //     // 这里只需要继续循环，让 AI 基于函数调用的结果做出下一步决策
+                //     
+                //     // 打印函数调用信息
+                //     foreach (var functionCall in functionCalls)
+                //     {
+                //         Console.WriteLine($"  调用: {functionCall.FunctionName}, 参数: {functionCall.Arguments}");
+                //     }
+                //     
+                //     // 继续下一次迭代，让 AI 处理函数调用的结果
+                //     continue;
+                // }
 
                 // 如果没有函数调用，说明 Agent 完成了任务
                 Console.WriteLine($"\n🤖 Agent: {response.Content}");
